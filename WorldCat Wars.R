@@ -21,7 +21,7 @@ library("RecordLinkage")
 				??compare.dedup
 			
 pairsFWWII<- compare.dedup(sortFWWII)
-#possiblesFWWII<- getPairs(pairsFWWII, show="possible")
+possiblesFWWII<- getPairs(pairsFWWII, show="possible")
 
 #Screw this. Mark, this package is hard to use. There are weights and subsets and yeah, I don't think I have time for this.
 #Instead, I am going the function duplicated()
@@ -207,8 +207,7 @@ View(NAndsMV)
 table(NAndsMV$date)
 NAndsMV<- NAndsMV[order(NAndsMV[,"date"], decreasing=TRUE),]
 View(NAndsMV)
-NAndsMV$date[1]<- "1982"
-NAndsMV$date[2]<- "1981"
+NAndsMV$date[1]<- "1981"
 View(NAndsMV)
 NAndsMV<- NAndsMV[order(NAndsMV[,"date"]),]
 View(NAndsMV)
@@ -220,169 +219,118 @@ NAndsMV$cdate<- strptime(as.character(NAndsMV$date), format= "%Y")
 class(NAndsMV$cdate)
 View(NAndsMV)
 NAndsMV$cdate<- (str_match(NAndsMV$cdate, "\\d\\d\\d\\d"))
-	#Error. I swear this thing is finicky.
 NAndsMV$cdate2<-year(as.character(NAndsMV$cdate))
-NAndsMV$cdate2<- as.integer(as.character(NAndsMV$date))
 class(NAndsMV$cdate2)
-View(NAndsMV)
-hist(NAndsMV$cdate2)
+View(NAndsMV$cdate2)
 
 # Fiction Iraq
 
 ndsFI$date<- (str_match(ndsFI$pub, "\\d\\d\\d\\d"))
 View(ndsFI)
-table(ndsFI$date)
 class(ndsFI$date)
 ndsFI$cdate<- strptime(as.character(ndsFI$date), format= "%Y")
-View(ndsFI)
-ndsFI$cdate<- (str_match(ndsFI$cdate, "\\d\\d\\d\\d"))
-	#error
 class(ndsFI$cdate)
-	#[1] "POSIXlt" "POSIXt" 
 ndsFI$cdate2<-year(as.character(ndsFI$cdate))
-ndsFI$cdate2<- as.integer(as.character(ndsFI$date))
 class(ndsFI$cdate2)
-hist(ndsFI$cdate2)
 
 # Memoir Iraq
 
 ndsMI$date<- (str_match(ndsMI$pub, "\\d\\d\\d\\d"))
 View(ndsMI)
-table(ndsMI$date)
-# Manual Fixes
-
-NAndsMI<- ndsMI[order(ndsMI[,"date"], decreasing=TRUE),]
-View(NAndsMI)
-NAndsMI$date[1]<-"2003"
-View(NAndsMI)
-NAndsMI<- ndsMI[order(ndsMI[,"date"]),]
-View(NAndsMI)
-NAndsMI$date[1]<-"2008"
-View(NAndsMI)
-table(NAndsMI$date)
-NAndsMI<- NAndsMI[order(NAndsMI[,"date"], decreasing=TRUE),]
-View(NAndsMI)
-NAndsMI$date[1]<- "2003"
-table(NAndsMI$date)
-
-class(NAndsMI$date)
-NAndsMI$cdate<- strptime(as.character(NAndsMI$date), format= "%Y")
-class(NAndsMI$cdate)
-NAndsMI$cdate2<- as.integer(as.character(NAndsMI$date))
-class(NAndsMI$cdate2)
-hist(NAndsMI$cdate2)
+class(ndsMI$date)
+ndsMI$cdate<- strptime(as.character(ndsMI$date), format= "%Y")
+class(ndsMI$cdate)
+ndsMI$cdate2<-year(as.character(ndsMI$cdate))
+class(ndsMI$cdate2)
 
 # Fiction Afghanistan
 
 ndsFA$date<- (str_match(ndsFA$pub, "\\d\\d\\d\\d"))
-table(ndsFA$date)
 View(ndsFA)
 class(ndsFA$date)
-ndsFA$cdate2<- as.integer(as.character(ndsFA$date))
+ndsFA$cdate<- strptime(as.character(ndsFA$date), format= "%Y")
+class(ndsFA$cdate)
+ndsFA$cdate2<-year(as.character(ndsFA$cdate))
 class(ndsFA$cdate2)
-hist(ndsFA$cdate2)
 
 # Memoir Afghanistan
 
 ndsMA$date<- (str_match(ndsMA$pub, "\\d\\d\\d\\d"))
 View(ndsMA)
-table(ndsMA$date)
 class(ndsMA$date)
-ndsMA$cdate2<- as.integer(as.character(ndsMA$date))
+ndsMA$cdate<- strptime(as.character(ndsMA$date), format= "%Y")
+class(ndsMA$cdate)
+ndsMA$cdate2<-year(as.character(ndsMA$cdate))
 class(ndsMA$cdate2)
-hist(ndsMA$cdate2)
 
 # 5. Plot this B.
 
-#Basic Histograms:
+# I need to count number of books in a given year. So, let's make some basic histograms of dates.
+# First, quick run down of the ranges:
 
-hist(ndsFWWII$cdate2, main = paste("WWII Fiction: 1939-1955"), xlab= "Publication Year", breaks=1000)
-hist(NAndsMWWII$cdate2, main = paste("WWII Memoirs: 1939-1955"), xlab="Publication Year", breaks=1000)
-hist(ndsFV$cdate2, main = paste("Vietnam Fiction: 1961-1985"), xlab="Publication Year", breaks=1000)
-hist(NAndsMV$cdate2, main = paste("Vietnam Memoirs: 1961-1985"), xlab="Publication Year", breaks=1000)
-hist(ndsFI$cdate2, main = paste("Iraq War Fiction: 2003-2013"), xlab = "Publication Year", breaks=1000)
-hist(NAndsMI$cdate2, main = paste("Iraq War Memoirs: 2003-2013"), xlab = "Publication Year", breaks=1000)
-hist(ndsFA$cdate2, main = paste("Afghan War Fiction: 2001-2013"), xlab = "Publication Year", breaks=1000)
-hist(ndsMA$cdate2, main = paste("Afghan War Memoirs: 2001-2013"), xlab = "Publication Year", breaks=1000)
-?hist
+range(ndsFWWII$cdate2)
+	# 1939 1955
+range(ndsMWWII$cdate2)
+	# NA NA --- WEIRD
+	class(ndsMWWII$cdate2)
+		#integer -- 	WTF??
+	max(ndsMWWII$cdate2)
+table(ndsMWWII$cdate2)
+	#this works?? 
+	# But it looks like I have a pub in 1998 and 2000 and so I need to remove those
+ndsMWWII[, ndsMWWII$cdate2== "1998"]
+ndsrmMWWII<- ndsMWWII[order(ndsMWWII[,"cdate2"], decreasing=TRUE),]
+View(ndsrmMWWII)
+ndsrmMWWII<- ndsrmMWWII[-(1:3),]
 
-# What I really need to compare is when the fiction and memoir spikes were for Iraq and Afghanistan and to apply this retroactively to the other wars.
-# Fiction spike for Iraq was in 2008, three years before the war ended.
-# Memoir spike for Iraq was in 2008. three years before the war ended.
-#Fiction spike for Afghanistan was in 2012. The war hasn't ended but if we pretend the war will end in 2014, this will mean the spike is two years before end date.
-# Memoir spike for Afghanistan was in 2012. Four years before "end date."
-	# What is the clear way to show this stuff?
+#Try range again for Memoir WWII
+range(ndsrmMWWII$cdate2)
+	# [1] NA NA
+	# I give up
 
-# Is that even what I should be looking at? 
-# Because people write after they've had time to process, perhaps I should at least also be looking at length of war.
-# US Involvement in WWII: 1941 - 1945; 3 years.
-	# Fiction peak in 1942.
-	# Memoir peak in 1943
-# US Involvement in Vietnamn: 1961 - 1975; 14 years.
-	# Fiction peak in 1985
-	# Memoir peak in 1985
-		# Jumps in 1985 for both
-# Iraq War: 2003 - 2011; 8 years.
-	# Fiction peak in 2008
-	# Memoir peak in 2008
-# Afghanistan War: 2001 - ; 12 years so far.
-	# Fiction peak in 2012
-	# Memoir peak in 2010
-## I need a 15 year spread and to plot these again over that spread
+range(ndsFV$cdate2)
+	# [1] 1961 1985
 
-# I am going to create this range by adding a new column to each data frame that subtracts the given date from the max date.
-ndsFWWII$range<- max(ndsFWWII$cdate2) - ndsFWWII$cdate2
-View(ndsFWWII)
-	max(ndsFWWII$cdate2)
-sum(t)
-#It's not the title I care about, it's the year. 
-#I need to take year/sum(year)
+range(ndsMV$cdate2)
+	#[1] 1300 9660
+	# Vietnam memoirs are messed up
+table(ndsMV$cdate2)
+ndsrmMV<- ndsMV[order(ndsMV[,"cdate2"], decreasing=TRUE),]
+View(ndsrmMV)
 
-NAndsMWWII$range<- max(NAndsMWWII$cdate2) - NAndsMWWII$cdate2
-max(NAndsMWWII$cdate2)
-View(NAndsMWWII)
+hist(ndsFWWII$cdate2)
+hist(ndsrmMWWII$cdate2)
 
-ndsFV$range<- max(ndsFV$cdate2) - ndsFV$cdate2
-max(ndsFV$range)
-View(ndsFV)
+class(ndsMWWII$cdate2)
 
-NAndsMV$range<- max(NAndsMV$cdate2) - NAndsMV$cdate2
-max(NAndsMV$range)
-View(NAndsMV)
 
-ndsFI$range<- max(ndsFI$cdate2) - ndsFI$cdate2
-max(ndsFI$cdate2)
-	#coming up as NA. I don't know why. Sigh.
-ndsFI$range<- 2013 - ndsFI$cdate2
-View(ndsFI)
 
-NAndsMI$range<- max(NAndsMI$cdate2) - NAndsMI$cdate2
-max(NAndsMI$cdate2)
-View(NAndsMI)
 
-ndsFA$range<- max(ndsFA$cdate2) - ndsFA$cdate2
-max(ndsFA$cdate2)
-View(ndsFA)
 
-ndsMA$range<- max(ndsMA$cdate2) - ndsMA$cdate2
-max(ndsMA$cdate2)
-View(ndsMA)
 
-#I think I should make a mosaic plot. But I don't know how with all my different data frames.
-install.packages("vcd")
-library(vcd)
-install.packages("ggplot2")
-library(ggplot2)
 
-#So I am going to try and do a basic multiple line plot.
-plot(ndsFWWII$range, main = paste("Fiction Publication Range from Start of War to Ten Years After War"), xlab="Publication Frequency", ylab= "War Range")
-points(ndsFV$range, col='red')
-points(ndsFI$range, col='blue')
-points(ndsFA$range, col='green')
-legend("bottomright", title= "War Colors", title.col="black", c("Afghan", "Iraq", "Vietnam", "WWII"), box.col=" dark gray", text.col=c("green", "blue", "red", "black"))
+# Should I turn title into a factor?
 
-plot(NAndsMWWII$range, main = paste("Memoir Publication Range from Start of War to Ten Years After War"), xlab="Publication Frequency", ylab= "War Range")
-points(NAndsMV$range, col='red')
-points(NAndsMI$range, col='blue')
-points(ndsMA$range, col='green')
-legend("bottomright", title= "War Colors", title.col="black", c("Afghan", "Iraq", "Vietnam", "WWII"), box.col=" dark gray", text.col=c("green", "blue", "red", "black"))
+class(ndsFWWII$title)
+	# It IS a factor
+
+# So, I think I need to cut the titles by date
+
+range(ndsFWWII$cdate2)
+	
+max(ndsFWWII$cdate2) - min(ndsFWWII$cdate2)
+	#16
+
+table(cut(ndsFWWII$title, b=16))
+
+??count
+
+?cut
+
+#Plot Fiction
+
+install.packages(ggplot2)
+
+range(ndsFWWII$cdate2)
+hist(ndsFWWII)
+plot(ndsFWWII$title, type="o", col="blue", ylim=c(1939,1955))
