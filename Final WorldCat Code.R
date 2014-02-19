@@ -23,7 +23,7 @@ library("RecordLinkage")
 pairsFWWII<- compare.dedup(sortFWWII)
 #possiblesFWWII<- getPairs(pairsFWWII, show="possible")
 
-#Screw this. Mark, this package is hard to use. There are weights and subsets and yeah, I don't think I have time for this.
+#This package is hard to use. There are weights and subsets and yeah, I don't think I have time for this.
 #Instead, I am going the function duplicated()
 
 #Show duplicated lines for sortFWWII
